@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block titulo %}registre una categoria de proyecto {% endblock %}
+
+
+{% block contenido %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+    <input type="submit" value="guardar">
+
+    </form>
+{% endblock %}

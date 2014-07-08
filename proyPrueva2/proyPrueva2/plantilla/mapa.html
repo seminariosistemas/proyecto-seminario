@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block contenido %}
+	<div id="mapa" class="capas"></div>
+	<div id="datos" class="capas">
+		<div id="form">
+			<form action="/coords/save" method="post" id="form_coords">
+                {% csrf_token %}
+				{{ form.as_p}}
+				<input type="submit" value="Guardar ubicacion">
+
+			</form>
+		</div>
+	</div>
+{% endblock  %}

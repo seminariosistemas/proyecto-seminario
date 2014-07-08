@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block titulo %}operciones Proyecto{% endblock %}
+
+
+{% block contenido %}
+    {{ proyectos.id }}
+
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+        <p>
+        <select name="buscar">
+            <option value="" selected="selected">---------</option>
+            {% for dato in pro %}
+                 <option value={{ dato.id }}>{{ dato.nombreproyecto }}</option>
+            {% endfor %}
+        </select>
+        </p>
+
+        <p><input  name="recuperar" type="text" value="{{ proyectos.costo }}"></p>
+
+        <p><label for="id_nombreproyecto">Nombreproyecto:</label> <input id="id_nombreproyecto" maxlength="100" name="nombreproyecto" type="text" value="{{ proyectos.nombreproyecto }}"></p>
+        <p><label for="id_nombreempresa">Nombreempresa:</label> <input id="id_nombreempresa" maxlength="100" name="nombreempresa" type="text" value="{{ proyectos.nombreempresa }}"></p>
+        <p><label for="id_costo">Costo:</label> <input id="id_costo" name="costo" type="text" value="{{ proyectos.costo }}"></p>
+        <p><label for="id_estadoproyecto">Estadoproyecto:</label>  {{ formulario.estadoproyecto }} </p>
+
+
+        <input type="submit" value="modificar">
+    </form>
+{% endblock %}
+

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block titulo %}porfa realize su comentario{% endblock %}
+
+
+{% block contenido %}
+    <form id='formulario' method="post"  action="">
+        {% csrf_token %}
+        <table>{{ formulario.as_p }}</table>
+        <p><input type="submit" value="comentar"/></p>
+    </form>
+{% endblock %}

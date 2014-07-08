@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block titulo %}Busqueda{% endblock %}
+
+
+{% block contenido %}
+
+    <form method="POST">
+        {% csrf_token %}}
+        {{ formulario.as_p }}
+    <input type="submit" value="ingresar">
+
+</form>
+{% endblock %}
+{% block buscador %}{% endblock %}

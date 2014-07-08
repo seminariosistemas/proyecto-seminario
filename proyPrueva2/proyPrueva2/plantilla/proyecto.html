@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% comment %} Aqui van comentarios {% endcomment %}
+{% block titulo %} ----------detalle proyecto--------- {% endblock %}
+
+
+{% block contenido %}
+    <div>
+        <p style="color: #222222; font-size: 17pt">NOMBRE: <b>{{proyecto.nombreproyecto}}</b></p>
+        <p style="color: #222222; font-size: 17pt">COSTO: <b>{{proyecto.costo}} Bs.</b></p>
+        <p style="color: #222222; font-size: 17pt">fecha registro: <b>{{proyecto.fecharegistro}}</b></p>
+        <p style="color: #222222; font-size: 17pt">fecha de inicio: <b>{{proyecto.fechainicio}}</b></p>
+        <p style="color: #222222; font-size: 17pt">fecha de conclucion: <b>{{proyecto.fechaconclucion}}</b></p>
+        <p style="color: #222222; font-size: 17pt">Empresa encargada: <b>{{proyecto.nombreempresa}}</b></p>
+
+        <p style="color: #222222; font-size: 17pt">Avance total de obra: <b>{{avanc.avanceobra}}</b></p>
+        <meter value="{{avanc.avanceobra}}" max="100" min="0" high="50" low="10" optimus="25">Tu navegador no soporta este control</meter>
+
+	</div>
+
+        <div id="wrapper">
+            <div class="slider-wrapper theme-default">
+                <div id="slider" class="nivoSlider" align="center">
+                    {% for dato in informes %}
+                        <img src="{{ MEDIA_URL }}{{ dato.imagen }}"  title="{{dato.fechapublicacion}}: {{dato.comentario}}">
+                    {% empty %}
+                        <p>no hay informes pa este proyecto  aun....</p>
+
+                    {% endfor %}
+                </div>
+            </div>
+            <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
+            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.nivo.slider.js"></script>
+            <script type="text/javascript">
+            $(window).load(function() {
+                $('#slider').nivoSlider();
+            });
+            </script>
+        </div>
+    <p style="color: #222222; font-size: 14pt">COMENTARIOS</p>
+    <div id='comentarios'>
+        {% for dato in comentarios %}
+            <p><b>{{dato.usuario}}</b>:{{dato.comentar}}</p>
+        {% empty %}
+            <p>no hay comentarios pa este proyecto  aun....</p>
+        {% endfor %}
+	</div>
+
+
+{% if not user.is_anonymous %}
+    <div id='formulari'>
+        <form method="POST">
+        {% csrf_token %}
+        {{ formul.as_p }}
+    <input type="submit" value="comentar">
+    </form>
+	</div>
+{% else %}
+    <li>debe iniciar sesion si desea comentar </li>
+{% endif %}
+{% endblock %}
+{% block buscador %}
+
+{% endblock %}
+

@@ -1,0 +1,28 @@
+body{
+	background: #E6E6E6;
+
+}
+
+.container{
+	background: #fff;
+	/*border: 6px solid #000;*/
+	box-shadow: 0 0 10px #000;
+	border-radius: 10px;
+	height: 500px;
+	margin: 0 auto;
+	padding: 5px;
+	width: 850px;
+	text-align: center;
+}
+.capas {
+	border: 1px solid #000;
+	display: inline-block;
+	height: 500px;
+	vertical-align: top;
+	width: 420px;
+}
+#form{
+	border-bottom: 1px solid #000;
+	height: 250px;
+	text-align: left;
+}

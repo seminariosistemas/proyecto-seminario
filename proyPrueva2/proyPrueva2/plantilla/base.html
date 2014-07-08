@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script type="application/javascript" src="{{STATIC_URL}}js/jquery-1.10.2.js"></script>
+    <script type="application/javascript" src="{{STATIC_URL}}js/script.js"></script>
+
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/default/default.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/light/light.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/dark/dark.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/bar/bar.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/nivo-slider.css" type="text/css" media="screen" />
+
+
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+    <script src="{{ STATIC_URL }}js/scriptsgoogle.js"></script>
+
+
+
+
+
+
+    <TABLE BORDER WIDTH=90% HEIGHT=100>
+	<TR>
+		<TD COLSPAN=2>
+            {% block titulo %}<title></title>{% endblock %}<br>
+            <li><a href="/">inicio </a></li>
+
+                <li><a href="/ingresar">{% if user.is_anonymous %}iniciar sesion{% else %}opciones usuario{% endif %} </a></li>
+
+            
+        </TD>
+	</TR>
+    </TABLE>
+
+</head>
+
+<body>
+
+
+<TABLE BORDER WIDTH=90% HEIGHT=200>
+	<TR>
+		<TD WIDTH=50 >{% block buscador %}buscadossssr{% endblock %}</TD>
+
+        <TD>
+
+                <div class="container">{% block contenido %}{% endblock contenido %}</div>
+
+
+        </TD>
+
+	</TR>
+
+
+</TABLE>
+
+
+</body>
+</html>

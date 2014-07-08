@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <TABLE BORDER WIDTH=90% HEIGHT=100>
+	<TR>
+		<TD COLSPAN=2>
+            {% block titulo %}<title></title>{% endblock %}<br>
+            <li><a href="/ingresar">iniciar sesion </a></li>
+
+        </TD>
+	</TR>
+    </TABLE>
+
+</head>
+
+<body>
+
+<TABLE BORDER WIDTH=90% HEIGHT=500>
+	<TR>
+		<TD>{% block menuusuario %}contenido usuario{% endblock %}</TD> <TD rowspan="2">{% block contenido %}contenido{% endblock %}</TD>
+	</TR>
+    <TR>
+		<TD>{% block buscador %}buscadossssr{% endblock %}</TD>
+	</TR>
+</TABLE>
+
+</body>
+</html>

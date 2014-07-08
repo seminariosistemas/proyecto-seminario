@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}registrar encargado prefectura{% endblock %}
+
+
+{% block contenido %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+        {{ formulario2.as_p  }}
+
+    <input type="submit" value="guardar">
+
+    </form>
+{% endblock %}
