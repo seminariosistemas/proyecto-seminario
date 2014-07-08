@@ -26,12 +26,12 @@ body{
 	height: 10px;
 }
 #datos1{
-    width:200px;
-    height:200px;
-    background-color: red;
+    width:10px;
+    height:10px;
+  
 
 }
 #mapa1{
-    width:50px;
-    height:100px;
+    width:580px;
+    height:420px;
 }
