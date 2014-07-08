@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block titulo %}eres usuario comun{% endblock %}
-
+{% block regtitulo %}
+	Encargado de Prefectura
+{% endblock regtitulo %}
 
 {% block contenido %}
-    <l1>
-        bienvenido: {{ usuario }} o desea  <a href="/cerrarsesion">cerrar sesion</a></li>
-        <li><a href="/registroproyecto">registrar proyecto </a></li>
-        <li><a href="/registrotipo">registrar categoria </a></li>
+    <p id="bienvenido">
+        bienvenido: {{ usuario }} </p>
+        <p class="opcionEncPref"><a href="/registroproyecto">registrar proyecto </a></p>
+		<p class="opcionEncPref"><a href="/registrotipo">registrar tipo proyecto </a></p>
 
-    </l1>
+        
+
+   
 
 {% endblock %}

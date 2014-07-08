@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block titulo %}operciones Proyecto{% endblock %}
+
+
+{% block contenido %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <p><label for="id_username">Nombre de usuario:</label> <input id="id_username" maxlength="30" name="username" type="text" value="{{ Usuario.username }}"> <span class="helptext">Requerido. 30 caracteres o menos. Letras, números y @/./+/-/_</span></p>
+
+
+
+
+        <input type="submit" value="modificar">
+    </form>
+
+    
+{% endblock %}

@@ -27,27 +27,45 @@ from django.contrib.auth.decorators import login_required
 
 
 from django.utils import simplejson
+from django.db.models import Q
+
+
+
 
 
 def inicio(request):
     tipoproyect = tipoproyecto.objects.all()
-    proyect = proyecto.objects.all()
-    return render_to_response('inicio.html', {'tipoproyecto': tipoproyect, 'proyecto': proyect},
+
+    proyect = proyecto.objects.filter(Q(estadoproyecto="en_ejecucion")|Q(estadoproyecto="Postergado"))
+
+    form=UbicacionForm()
+    ubicaciones =proyecto.objects.all()
+
+    if request.method == 'POST':
+        fUbicacion = regproyectoForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+    else:
+        formulario = regproyectoForm()
+
+
+    return render_to_response('inicio.html', {'tipoproyecto': tipoproyect, 'proyecto': proyect,'form': formulario,'ubicaciones':ubicaciones},
                               context_instance=RequestContext(request))
+
 
 
 def ingresar(request):
     if not request.user.is_anonymous():
-        u = request.user.id
-        dato = encargadoemp.objects.filter(usuario=u).exists()
+        u=request.user.id
+        dato=encargadoemp.objects.filter(usuario=u).exists()
         if dato:
             return HttpResponseRedirect('/privadoencempresa')
         else:
-            dato = poblacion.objects.filter(usuario=u).exists()
+            dato=poblacion.objects.filter(usuario=u).exists()
             if dato:
                 return HttpResponseRedirect('/privadousuario')
             else:
-                dato = encargadopref.objects.filter(usuario=u).exists()
+                dato=encargadopref.objects.filter(usuario=u).exists()
                 if dato:
                     return HttpResponseRedirect('/privadoencprefectra')
                 else:
@@ -61,25 +79,19 @@ def ingresar(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
-                    # return HttpResponseRedirect('/privadousuario')
-                    u = request.user.id
-                    dato = encargadoemp.objects.filter(usuario=u).exists()
+                    u=request.user.id
+                    dato=encargadoemp.objects.filter(usuario=u).exists()
                     if dato:
-                        #return HttpResponse('es encargado de empresa')
                         return HttpResponseRedirect('/privadoencempresa')
                     else:
-                        #return HttpResponse('no se encuentra en encargado de empresa')
-                        dato = poblacion.objects.filter(usuario=u).exists()
+                        dato=poblacion.objects.filter(usuario=u).exists()
                         if dato:
-                            #return HttpResponse('es usuario poblacion comun')
                             return HttpResponseRedirect('/privadousuario')
                         else:
-                            dato = encargadopref.objects.filter(usuario=u).exists()
+                            dato=encargadopref.objects.filter(usuario=u).exists()
                             if dato:
-                                #return HttpResponse('es encargado de prefectura')
                                 return HttpResponseRedirect('/privadoencprefectra')
                             else:
-                                #return HttpResponse('es administrador')
                                 return HttpResponseRedirect('/privadoadministrador')
                 else:
                     return render_to_response('noactivo.html', context_instance=RequestContext(request))
@@ -93,89 +105,38 @@ def ingresar(request):
 @login_required(login_url='/ingresar')
 def privadousuario(request):
     usuario = request.user
-    return render_to_response('privadousuariocomun.html', {'usuario': usuario},
-                              context_instance=RequestContext(request))
-
-
+    return render_to_response('privadousuariocomun.html', {'usuario': usuario},context_instance=RequestContext(request))
 @login_required(login_url='/ingresar')
 def privadoencempresa(request):
     usuario = request.user
-    return render_to_response('privadoencempresa.html', {'usuario': usuario}, context_instance=RequestContext(request))
-
-
+    return render_to_response('privadoencempresa.html', {'usuario': usuario},context_instance=RequestContext(request))
 @login_required(login_url='/ingresar')
 def privadoencprefectura(request):
     usuario = request.user
-    return render_to_response('privadoencpref.html', {'usuario': usuario}, context_instance=RequestContext(request))
-
-
+    return render_to_response('privadoencpref.html', {'usuario': usuario},context_instance=RequestContext(request))
 @login_required(login_url='/ingresar')
 def privadoadministrador(request):
-    usuario = request.user
-    return render_to_response('privadoadministrador.html', {'usuario': usuario},
-                              context_instance=RequestContext(request))
 
+    tipoproyect = tipoproyecto.objects.all()
+    proyect = proyecto.objects.all()
+    usuario = request.user
+    return render_to_response('privadoadministrador.html', {'usuario': usuario,'tipoproyecto': tipoproyect, 'proyecto': proyect},context_instance=RequestContext(request))
 
 @login_required(login_url='/ingresar')
 def cerrar(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-
 def mostrar_proyectos(request):
     tipoproyect = tipoproyecto.objects.all()
     proyect = proyecto.objects.all()
-    return render_to_response('mostrarproyectos.html', {'tipoproyecto': tipoproyect, 'proyecto': proyect},
-                              context_instance=RequestContext(request))
-
-
-"""
-def detalle_proyecto(request, id_proyecto):
-    dato = get_object_or_404(proyecto, pk=id_proyecto)
-    comentarios = comentario.objects.filter(proyecto=dato)
-    informes = informesemanal.objects.filter(proyecto=dato)
-
-    if request.user.is_authenticated():
-        if request.method == "POST":
-            form = comentarioForm(request.POST)
-            if form.is_valid:
-                texto = request.POST["comentar"]
-                u = request.user
-                #return HttpResponse(proyectof)
-                #usuario=request.POST['username']
-                #u=User.objects.get(username="alvarogutierrez_99")
-                #comentarios=request.POST['comentar']
-                #comentario.objects.create(comentar=comentarios,usuario=u)
-
-                #u=User.objects.get(username=request.POST["usuario"])
-
-                p = comentario(comentar=texto,
-                               usuario=u,
-                               proyecto=dato,
-                )
-                p.save()
-                url = '/proyecto/' + str(dato.id)
-                return HttpResponseRedirect(url)
-        else:
-
-            form = comentarioForm()
-
-        #fin analizar
-
-    #aui los comentarios de este proyecto
-    #aqui detalle del inorme semanal
-    return render_to_response("proyecto.html",
-                              {"informes": informes, "formul": form, "proyecto": dato, "comentarios": comentarios},
-                              context_instance=RequestContext(request))
-
-"""
-
+    return render_to_response('mostrarproyectos.html', {'tipoproyecto': tipoproyect, 'proyecto': proyect},context_instance=RequestContext(request))
 
 def detalle_proyecto(request, id_proyecto):
     dato = get_object_or_404(proyecto, pk=id_proyecto)
     comentarios = comentario.objects.filter(proyecto=dato)
     informes = informesemanal.objects.filter(proyecto=dato)
-    avan = informesemanal.objects.filter(proyecto=dato).last()
+    avan=informesemanal.objects.filter(proyecto=dato).last()
+
 
     if request.method == "POST":
         form = comentarioForm(request.POST)
@@ -191,10 +152,7 @@ def detalle_proyecto(request, id_proyecto):
             return HttpResponseRedirect(url)
     else:
         form = comentarioForm()
-    return render_to_response("proyecto.html",
-                              {"informes": informes, "formul": form, "proyecto": dato, "comentarios": comentarios,
-                               "avanc": avan}, context_instance=RequestContext(request))
-
+    return render_to_response("proyecto.html",{"informes": informes, "formul": form, "proyecto": dato, "comentarios": comentarios,"avanc":avan},context_instance=RequestContext(request))
 
 def nuevo_comentario(request):
     if request.user.is_authenticated():
@@ -204,13 +162,7 @@ def nuevo_comentario(request):
             if form.is_valid:
                 texto = request.POST["comentar"]
                 u = request.user
-                # usuario=request.POST['username']
-                #u=User.objects.get(username="alvarogutierrez_99")
-                #comentarios=request.POST['comentar']
-                #comentario.objects.create(comentar=comentarios,usuario=u)
-
-                #u=User.objects.get(username=request.POST["usuario"])
-
+                
                 p = comentario(comentar=texto,
                                usuario=u,
                 )
@@ -222,8 +174,6 @@ def nuevo_comentario(request):
         return render_to_response('nuevocomentario.html', {'formulario': form}, RequestContext(request))
     else:
         return HttpResponseRedirect("/")
-
-
 def reg_poblacion(request):
     if request.method == 'POST':
         formulario = UserCreationForm(request.POST)
@@ -238,17 +188,14 @@ def reg_poblacion(request):
             u.email = email
             u.save()
             poblacion.objects.create(nombre=nombre, ci=ci, usuario=u)
-            return HttpResponse("Registrado")
+            return HttpResponseRedirect('/registradoexito') 
     else:
         formulario = UserCreationForm()
         formulario2 = poblacionForm()
     return render_to_response("regpoblacion.html", {'formulario': formulario, 'formulario2': formulario2},
                               context_instance=RequestContext(request))
-
-
-# igual registrara  si no es un encarado de empresa eso arreglar con una consulta
+@login_required(login_url='/ingresar')
 def reg_tipoproy(request):
-    #if request.user.is_authenticated():
     if request.method == "POST":
         form = comentarioForm(request.POST)
         if form.is_valid:
@@ -256,15 +203,6 @@ def reg_tipoproy(request):
             a = request.user
             x = a.id
             u = encargadopref.objects.get(usuario=x)
-
-            #return HttpResponse(u)
-
-            #usuario=request.POST['username']
-            #u=User.objects.get(username="alvarogutierrez_99")
-            #comentarios=request.POST['comentar']
-            #comentario.objects.create(comentar=comentarios,usuario=u)
-
-            #u=User.objects.get(username=request.POST["usuario"])
 
             p = tipoproyecto(nombre=texto,
                              encargadopref=u,
@@ -275,15 +213,7 @@ def reg_tipoproy(request):
     else:
         form = tipoproyForm()
     return render_to_response('regtipoproy.html', {'formulario': form}, RequestContext(request))
-
-
-#else:
-#return HttpResponseRedirect("/")
-
-
-
-
-
+@login_required(login_url='/ingresar')
 def reg_encpref(request):
     if request.method == 'POST':
         formulario = UserCreationForm(request.POST)
@@ -298,7 +228,7 @@ def reg_encpref(request):
             uss = request.POST['nombre']
 
             encargadopref.objects.create(nombre=uss, estado="Activo", usuario=u)
-            return HttpResponse("Registrado")
+            return HttpResponseRedirect('/registradoexito')
     else:
         formulario = UserCreationForm()
         formulario2 = regencprefForm()
@@ -306,7 +236,7 @@ def reg_encpref(request):
     return render_to_response("reg_encpref.html", {'formulario': formulario, 'formulario2': formulario2},
                               context_instance=RequestContext(request))
 
-
+@login_required(login_url='/ingresar')
 def reg_proyecto(request):
     if request.method == 'POST':
         formulario3 = regproyectoForm(request.POST)
@@ -317,17 +247,7 @@ def reg_proyecto(request):
             x = a.id
             u = encargadopref.objects.get(usuario=x)
 
-            #codigo para recuperar ojetos segun el id
-            #u=get_object_or_404(encargadopref,pk=1)
-            #codigo para revcperar ojetos segun nombre
-            #v=tipoproyecto.objects.get(nombre='puente')
-            # retorno el id de este objeto encontrado
-            #return HttpResponse(v.id)
 
-            #codigo para revcperar objetos segun id
-            #v=encargadopref.objects.get(id=1)
-
-            #return HttpResponse(v.id)
             formulario1.save()
 
             yy = request.POST["username"]
@@ -356,7 +276,7 @@ def reg_proyecto(request):
                 tipoproyecto=formulario3.cleaned_data["tipoproyecto"],
             )
             q.save()
-            return HttpResponse("Registrado")
+            return HttpResponseRedirect('/registradoexito')
     else:
         formulario3 = regproyectoForm()
         formulario1 = UserCreationForm()
@@ -365,80 +285,130 @@ def reg_proyecto(request):
                               {'formulario1': formulario1, 'formulario2': formulario2, 'formulario3': formulario3},
                               context_instance=RequestContext(request))
 
-
+@login_required(login_url='/ingresar')
 def reg_infsemanal(request):
     a = request.user
     u = encargadoemp.objects.get(usuario=a.id)
 
-    dato = u
-    suproyecto = proyecto.objects.get(encargadoemp=u)
+    dato =u
+    suproyecto=proyecto.objects.get(encargadoemp=u)
 
     if request.method == 'POST':
         formulario = informesemanalForm(request.POST, request.FILES)
         if formulario.is_valid():
-            av = request.POST["avanceobra"]
-            im = formulario.cleaned_data["imagen"]
-            informesemanal.objects.create(imagen=im, comentario=request.POST["comentario"], avanceobra=av,
-                                          proyecto=suproyecto)
-            return HttpResponse("informado")
+            av=request.POST["avanceobra"]
+            im=formulario.cleaned_data["imagen"]
+            informesemanal.objects.create(imagen=im,comentario=request.POST["comentario"], avanceobra=av,proyecto=suproyecto)
+            return HttpResponseRedirect('/registradoexito')
     else:
         formulario = informesemanalForm()
-    return render_to_response("reginforme.html", {'dato': dato, "suproyecto": suproyecto, "formulario": formulario},
-                              context_instance=RequestContext(request))
+    return render_to_response("reginforme.html",{'dato': dato,"suproyecto":suproyecto,"formulario":formulario},context_instance=RequestContext(request))
 
-
-#--------------------------desd aqui
 def buscar(request):
-    if request.method == "POST":
-        texto = request.POST["tbuscar"]
-        proy = proyecto.objects.filter(nombreproyecto__contains=texto)
-        html = "<ul>"
+    if request.method=="POST":
+        texto=request.POST["tbuscar"]
+        proy=proyecto.objects.filter(nombreproyecto__contains=texto)
+        html="<ul>"
         for i in proy:
-            html = html + "<li> <a> <a href='/proyecto/" + str(i.id) + "'>" + str(i.nombreproyecto) + "</a> </li>"
-        html = html + "</ul>"
+            html=html+"<li> <a> <a href='/proyecto/"+str(i.id)+"'>" +str(i.nombreproyecto)+ "</a> </li>"
+        html=html+"</ul>"
         return HttpResponse(html)
     else:
         return HttpResponse("NADA")
 
+def registroexit(request):
+    return render_to_response("registradoexito.html",context_instance=RequestContext(request))
 
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url='/ingresar')
 def operacionesproyecto(request):
     a = request.user
     u = encargadoemp.objects.get(usuario=a.id)
     proyectos = proyecto.objects.get(encargadoemp=u)
     pro=proyecto.objects.all()
-
-
-
     if request.method == 'POST':
         formulario = operacionesProyecto(request.POST)
         if formulario.is_valid():
-
-            var=proyecto.objects.get(nombre=request.POST["buscar"])
-
             proyecto.objects.filter(id=proyectos.id).update(costo=request.POST["costo"],nombreproyecto=request.POST["nombreproyecto"],nombreempresa=request.POST["nombreempresa"],estadoproyecto=request.POST["estadoproyecto"])
-            return HttpResponse("informado")
+            return HttpResponseRedirect('/registradoexito') 
     else:
         formulario = operacionesProyecto()
     return render_to_response("operacionesproyecto.html", {'formulario': formulario, "proyectos": proyectos,"pro":pro},
                           context_instance=RequestContext(request))
 
-
-
-
-
-
-
-
-
-
-
-
-
+#----------------------------
 def coords_save(request):
     if request.method == 'POST':
-        formulario = UbicacionForm(request.POST)
+        fUbicacion = regproyectoForm(request.POST)
         if formulario.is_valid():
             formulario.save()
     else:
-        formulario = UbicacionForm()
+        formulario = regproyectoForm()
     return render_to_response("mapa.html", {'form': formulario},context_instance=RequestContext(request))
+#-----------------------------
+@login_required(login_url='/ingresar')
+def dardebajaproyecto(request):
+    pro = proyecto.objects.filter(Q(estadoproyecto="en_ejecucion")|Q(estadoproyecto="Postergado"))
+    if request.method == 'POST':
+        var=proyecto.objects.get(id=request.POST["buscar"])
+
+        proyecto.objects.filter(id=var.id).update(estadoproyecto="Terminado")
+        return HttpResponseRedirect('/registradoexito') 
+    return render_to_response("darbajaproyecto.html", {"pro":pro},context_instance=RequestContext(request))
+
+
+@login_required(login_url='/ingresar')
+def editarproyecto(request, id_proyecto):
+    dato = get_object_or_404(proyecto, pk=id_proyecto)
+    if request.method == "POST":
+        formulario = editarProyectoForm(request.POST)
+        if formulario.is_valid():
+
+            proyecto.objects.filter(id=dato.id).update(costo=request.POST["costo"],nombreproyecto=request.POST["nombreproyecto"],nombreempresa=request.POST["nombreempresa"],estadoproyecto=request.POST["estadoproyecto"])
+            return HttpResponseRedirect('/registradoexito') 
+    else:
+        formulario = editarProyectoForm()
+    return render_to_response("editarproyecto.html",{"formulario":formulario,"proyecto": dato}, context_instance=RequestContext(request))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def mostrarmapa(request):
+    tipoproyect = tipoproyecto.objects.all()
+
+    proyect = proyecto.objects.filter(Q(estadoproyecto="en_ejecucion")|Q(estadoproyecto="Postergado"))
+
+    form=UbicacionForm()
+    ubicaciones =proyecto.objects.all()
+
+    if request.method == 'POST':
+        fUbicacion = regproyectoForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+    else:
+        formulario = regproyectoForm()
+
+
+    return render_to_response('mostrarmapa.html', {'tipoproyecto': tipoproyect, 'proyecto': proyect,'form': formulario,'ubicaciones':ubicaciones},
+                              context_instance=RequestContext(request))

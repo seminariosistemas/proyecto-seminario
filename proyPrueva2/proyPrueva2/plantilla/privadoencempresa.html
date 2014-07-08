@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block titulo %}eres usuario comun{% endblock %}
-
+{% block regtitulo %}
+	Encargado de empresa
+{% endblock regtitulo %}
 
 {% block contenido %}
-    <l1>
-        bienvenido: {{ usuario }} o desea  <a href="/cerrarsesion">cerrar sesion</a></li>
-        <li><a href="/registroinforme">registrar informe </a></li>
-
-    </l1>
+    <p id="bienvenido">
+        bienvenido: {{ usuario }} </p>
+		<p class="opcionEncPref"><a href="/registroinforme">registrar informe </a></p>
+   
 
 {% endblock %}

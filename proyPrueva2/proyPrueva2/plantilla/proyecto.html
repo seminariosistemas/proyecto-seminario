@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 {% comment %} Aqui van comentarios {% endcomment %}
 {% block titulo %} ----------detalle proyecto--------- {% endblock %}
+{% block regtitulo %}
+  Informe de Proyecto
+{% endblock regtitulo %}
 
 
 {% block contenido %}
     <div>
-        <p style="color: #222222; font-size: 17pt">NOMBRE: <b>{{proyecto.nombreproyecto}}</b></p>
-        <p style="color: #222222; font-size: 17pt">COSTO: <b>{{proyecto.costo}} Bs.</b></p>
-        <p style="color: #222222; font-size: 17pt">fecha registro: <b>{{proyecto.fecharegistro}}</b></p>
-        <p style="color: #222222; font-size: 17pt">fecha de inicio: <b>{{proyecto.fechainicio}}</b></p>
-        <p style="color: #222222; font-size: 17pt">fecha de conclucion: <b>{{proyecto.fechaconclucion}}</b></p>
-        <p style="color: #222222; font-size: 17pt">Empresa encargada: <b>{{proyecto.nombreempresa}}</b></p>
-
-        <p style="color: #222222; font-size: 17pt">Avance total de obra: <b>{{avanc.avanceobra}}</b></p>
-        <meter value="{{avanc.avanceobra}}" max="100" min="0" high="50" low="10" optimus="25">Tu navegador no soporta este control</meter>
-
-	</div>
+        <p >NOMBRE: <b>{{proyecto.nombreproyecto}}</b></p>
+        <p >COSTO: <b>{{proyecto.costo}} Bs.</b></p>
+        <p >fecha registro: <b>{{proyecto.fecharegistro}}</b></p>
+        <p >fecha de inicio: <b>{{proyecto.fechainicio}}</b></p>
+        <p >fecha de conclucion: <b>{{proyecto.fechaconclucion}}</b></p>
+        <p >Empresa encargada: <b>{{proyecto.nombreempresa}}</b></p>
+        <p >Avance total de obra: <b>{{avanc.avanceobra}}</b></p>
+    </div>
 
         <div id="wrapper">
             <div class="slider-wrapper theme-default">
@@ -24,7 +24,6 @@
                         <img src="{{ MEDIA_URL }}{{ dato.imagen }}"  title="{{dato.fechapublicacion}}: {{dato.comentario}}">
                     {% empty %}
                         <p>no hay informes pa este proyecto  aun....</p>
-
                     {% endfor %}
                 </div>
             </div>
@@ -36,14 +35,14 @@
             });
             </script>
         </div>
-    <p style="color: #222222; font-size: 14pt">COMENTARIOS</p>
+    <p gg 14pt">COMENTARIOS</p>
     <div id='comentarios'>
         {% for dato in comentarios %}
             <p><b>{{dato.usuario}}</b>:{{dato.comentar}}</p>
         {% empty %}
             <p>no hay comentarios pa este proyecto  aun....</p>
         {% endfor %}
-	</div>
+    </div>
 
 
 {% if not user.is_anonymous %}
@@ -53,7 +52,7 @@
         {{ formul.as_p }}
     <input type="submit" value="comentar">
     </form>
-	</div>
+    </div>
 {% else %}
     <li>debe iniciar sesion si desea comentar </li>
 {% endif %}
@@ -61,4 +60,3 @@
 {% block buscador %}
 
 {% endblock %}
-

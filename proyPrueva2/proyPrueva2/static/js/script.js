@@ -18,5 +18,6 @@ function resultado(data){
     $("#dresultado").html(data);
 }
 function errores(){
+
     $("#dresultado").text("Error en el servidor");
 }

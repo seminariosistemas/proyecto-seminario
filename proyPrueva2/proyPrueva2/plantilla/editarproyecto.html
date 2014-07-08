@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block titulo %}operciones Proyecto{% endblock %}
+
+
+{% block contenido %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <p><label for="id_nombreproyecto">Nombreproyecto:</label> <input id="id_nombreproyecto" maxlength="100" name="nombreproyecto" type="text" value="{{ proyecto.nombreproyecto }}"></p>
+        <p><label for="id_nombreempresa">Nombreempresa:</label> <input id="id_nombreempresa" maxlength="100" name="nombreempresa" type="text" value="{{ proyecto.nombreempresa }}"></p>
+        <p><label for="id_costo">Costo:</label> <input id="id_costo" name="costo" type="text" value="{{ proyecto.costo }}"></p>
+        <p><label for="id_estadoproyecto">Estadoproyecto:</label>  {{ formulario.estadoproyecto }} </p>
+
+        <input type="submit" value="modificar">
+    </form>
+
+    
+{% endblock %}
+

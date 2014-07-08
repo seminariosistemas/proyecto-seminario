@@ -16,7 +16,7 @@ class encargadoemp(models.Model):
     nombre = models.CharField(max_length=100)
     SHIRT_SIZES = (
         ('activo', 'activo'),
-        ('viaje', 'viaje'),
+        ('DeBaja', 'DeBaja'),
     )
     estado = models.CharField(max_length=20, choices=SHIRT_SIZES)
     usuario=models.ForeignKey(User,unique=True)
@@ -119,3 +119,7 @@ class Ubicacion(models.Model):
 class UbicacionForm(ModelForm):
     class Meta:
         model=Ubicacion
+
+        
+
+

@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 {% block titulo %}registrar Proyecto{% endblock %}
-
+{% block regtitulo %}
+    Registro de Proyectos Civiles
+{% endblock regtitulo %}
 
 {% block contenido %}
-    <form method="POST">
+
+    <div id="mapa" class="capas"></div>
+        <div id="datos" class="capas">
+            <div id="form">
+
+                <form id="regProyecto" method="POST">
         {% csrf_token %}
-        <li>Datos del Proyecto</li>
-        {{ formulario3.as_p }}
-        <li>Datos del encargado de la empresa</li>
-        {{ formulario1.as_p }}
-        {{ formulario2.as_p }}
+        <p>Datos del Proyecto</p>
+        <div id="reg3">{{ formulario3.as_p }}</div>
+        <p>Datos del encargado de la empresa</p>
+        <div id="reg1">{{ formulario1.as_p }}</div>
+        <div id="reg2">{{ formulario2.as_p }}</div>
     <input type="submit" value="registrar Proyecto">
     </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

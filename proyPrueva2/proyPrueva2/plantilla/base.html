@@ -1,63 +1,157 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}Inicio{% endblock %}</title>
 
-    <script type="application/javascript" src="{{STATIC_URL}}js/jquery-1.10.2.js"></script>
+
+
+
+<meta name="keywords" content="Green Black, Free CSS Templates, Web Design" />
+<meta name="description" content="Green Black - Download free CSS templates from templatemo.com" />
+<link href="{{ STATIC_URL }}fondo/templatemo_style.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript">
+function clearText(field)
+{
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+</script>
+<script type="application/javascript" src="{{STATIC_URL}}js/jquery-1.10.2.js"></script>
     <script type="application/javascript" src="{{STATIC_URL}}js/script.js"></script>
-
-
     <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/default/default.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/light/light.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/dark/dark.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ STATIC_URL }}js/themes/bar/bar.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ STATIC_URL }}js/nivo-slider.css" type="text/css" media="screen" />
 
-
-
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
     <script src="{{ STATIC_URL }}js/scriptsgoogle.js"></script>
 
 
-
-
-
-
-    <TABLE BORDER WIDTH=90% HEIGHT=100>
-	<TR>
-		<TD COLSPAN=2>
-            {% block titulo %}<title></title>{% endblock %}<br>
-            <li><a href="/">inicio </a></li>
-
-                <li><a href="/ingresar">{% if user.is_anonymous %}iniciar sesion{% else %}opciones usuario{% endif %} </a></li>
-
-            
-        </TD>
-	</TR>
-    </TABLE>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/styles1.css" type="text/css">
+    <script src="{{ STATIC_URL }}js/scriptsgoogle1.js"></script>
 
 </head>
-
 <body>
+<div id="templatemo_container_wrapper">
+<div id="templatemo_container">
+    <div id="templatemo_banner">
+        <div id="site_title">
+            <a href="http://www.templatemo.com" target="_parent"><img class="image_wrapper2" src="{{ STATIC_URL }}fondo/images/plomo.png" /></a>
+        </div>
+        
+        <div id="chelo">
+          {%if  user.is_anonymous%}<a href="/registropoblacion">
+            
+           <div class="contenedor" id="tres">
+              <img class="icono" src="/static/fondo/images/icono2 .png">
+              <p class="texto"><a href="/registropoblacion">Registro de Usuario</a></p>
+           </div>
+           </a>
+           {% endif %}
+          <a href="{% url 'appPrueva2.views.mostrarmapa' %}">
+
+           <div class="contenedor" id="tres">
+              <img class="icono" src="/static/fondo/images/icono4 .png">
+              <p class="texto"><a href="{% url 'appPrueva2.views.mostrarmapa' %}">Mostrar Mapa</a></p>
+           </div>
+           </a>
+           <a href="{% url 'appPrueva2.views.mostrar_proyectos' %}">
 
 
-<TABLE BORDER WIDTH=90% HEIGHT=200>
-	<TR>
-		<TD WIDTH=50 >{% block buscador %}buscadossssr{% endblock %}</TD>
+           <div class="contenedor" id="uno">
+              <img class="icono" src="/static/fondo/images/icono1.png">
+              <p class="texto"><a href="{% url 'appPrueva2.views.mostrar_proyectos' %}">Inicio</a></p>
+           </div>
+           </a>
+           <a href="{% url 'appPrueva2.views.ingresar' %}">
 
-        <TD>
+           <div class="contenedor" id="dos">
+              <img class="icono" src="/static/fondo/images/icono3 .png"  >           
+              <p class="texto">{%if  user.is_anonymous%}<a href="{% url 'appPrueva2.views.ingresar' %}" >iniciar sesion</a>{%else%}opciones usuario <a href='/cerrarsesion/'>cerrar sesion</a>{% endif %}</p>
+           </div>
+           
+           </a>
 
-                <div class="container">{% block contenido %}{% endblock contenido %}</div>
+        </div> <!-- end of menu -->
+    
+    </div> <!-- end of banner -->
+    
+    <div id="templatemo_content">
+        
+        <div id="side_column">
+        {% block izquierda %}
+       
+            <div class="side_column_box">
+            
+                <h2><span></span>Buscador</h2>
+                
+                <div class="side_column_box_content">
+                {% block buscador %}
+                            <form action="/buscar/" method="post" id="fbuscar">
+                  {% csrf_token %}
+                <input type="text" id="tbuscar" name="tbuscar">
+                <input type="submit" value="Buscar">
+                </form>
+                <div id="dresultado">
+                </div>             
+                {% endblock buscador %}    
+                </div>
+                {% block listadobot %}
+                <div class="bottom"></div>
+                {% endblock listadobot %}
+            </div>
+            
+            
+            
+       {% endblock izquierda %}
+        </div> <!-- end of side column -->
+        
+        <div id="main_column">
+        
+            <div class="main_column_section">       
+            
+                <h2><span></span>{%block regtitulo%}Listado de Proyectos Civiles{%endblock regtitulo%}</h2>
+                {% block contenido %}
+                {% block registro %}
+                
+                {% endblock registro %}  
+                {% endblock contenido %}
+                {% block mapabot %}
+                    
+               
+                <div class="cleaner"></div>
+                <div class="bottom"></div>
+                 {% endblock mapabot %}
+            </div>
+            
+                
+           
+        </div> <!-- end of main column -->
+    
+        <div class="cleaner"></div>
+    </div> <!-- end of content -->
+    
+    <div id="templatemo_footer">
+    
+    <div id="templatemo_footer_bar">
+    
+        <ul class="footer_menu">
+        
+        </ul>
+        
 
+        Derechos reservados <a href="#">"Gobierno Autonomo Departamental de Potosi"</a> | <a href="#" target="_parent">Pagina hecha</a> por <a href="#" target="_parent">Ingenieria de Sistemas U.A.T.F.</a>
+        
+    </div>
+    
+    </div> <!-- end of footer -->
 
-        </TD>
-
-	</TR>
-
-
-</TABLE>
-
-
+</div> <!-- end of container -->
+</div> <!-- end of container wrapper -->
+<div align=center><a href='#'>Rodrigo Martinez  - Albaro Gutierrez - Marcelo Ibarra</a></div>
 </body>
 </html>

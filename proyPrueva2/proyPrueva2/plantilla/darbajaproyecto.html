@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block titulo %}operciones Proyecto{% endblock %}
+
+
+{% block contenido %}
+    <form method="POST">
+
+        {% csrf_token %}
+        <p>
+        <select name="buscar">
+            <option value="" selected="selected">---------</option>
+            {% for dato in pro %}
+                 <option value={{ dato.id }}>{{ dato.nombreproyecto }}</option>
+            {% endfor %}
+        </select>
+        </p>
+
+
+
+        <input type="submit" value="modificar">
+    </form>
+
+
+{% endblock %}
+

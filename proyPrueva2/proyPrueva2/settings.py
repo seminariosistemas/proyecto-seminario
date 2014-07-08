@@ -13,8 +13,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 RUTA_PROYECTO=os.path.dirname(os.path.realpath(__file__),)
+
 TEMPLATE_DIRS=( os.path.join(RUTA_PROYECTO,"plantilla"), )
-STATICFILES_DIRS=( os.path.join(RUTA_PROYECTO,"static"), )
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,18 +64,18 @@ WSGI_APPLICATION = 'proyPrueva2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME':'db_prueva2',
         'USER':'root',
         'PASSWORD':'',
-        'HOST':'localhost',
+        'HOST':'127.0.0.1',
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-BO'
 
 TIME_ZONE = 'UTC'
 
@@ -87,11 +89,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'carga')
-MEDIA_URL = 'http://127.0.0.1:8000/media/'
-STATIC_ROOT = ''
+
 STATIC_URL = '/static/'
-
-
-
-
+STATICFILES_DIRS = (
+    os.path.join(RUTA_PROYECTO,'static'),    
+    )
+MEDIA_ROOT=os.path.join(RUTA_PROYECTO,"carga")
+MEDIA_URL = 'http://127.0.0.1:8000/media/'

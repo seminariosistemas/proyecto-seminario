@@ -8,18 +8,18 @@ body{
 	/*border: 6px solid #000;*/
 	box-shadow: 0 0 10px #000;
 	border-radius: 10px;
-	height: 500px;
+	height: 400px;
 	margin: 0 auto;
 	padding: 5px;
-	width: 850px;
+	width: 600px;
 	text-align: center;
 }
 .capas {
 	border: 1px solid #000;
 	display: inline-block;
-	height: 500px;
+	height: 635px;
 	vertical-align: top;
-	width: 420px;
+	width: 450px;
 }
 #form{
 	border-bottom: 1px solid #000;

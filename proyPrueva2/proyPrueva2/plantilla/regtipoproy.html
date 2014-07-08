@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block titulo %}registre una categoria de proyecto {% endblock %}
-
+{% block regtitulo %}
+	Registro Tipo de Proyectos
+{% endblock regtitulo %}
 
 {% block contenido %}
 
-    <form method="POST">
+    <form id="regTipoProy" method="POST">
         {% csrf_token %}
 
-        {{ formulario.as_p }}
+        <div id="regTipo1">{{ formulario.as_p }}</div>
 
     <input type="submit" value="guardar">
 

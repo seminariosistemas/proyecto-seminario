@@ -55,7 +55,7 @@ $(function(){
 			map:map,
 			draggable: true,
 			title: 'Arrastrame',
-			icon: 'http://gmaps-samples.googlecode.com/svn/trunk/markers/green/blank.png'
+			icon: 'http://i57.tinypic.com/s63cpz.jpg'
 			//icon: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png'
 		});
 		google.maps.event.addListener(marker,'position_changed', function(){

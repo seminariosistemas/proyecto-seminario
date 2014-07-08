@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css">
+{% block titulo %} INICIO {% endblock %}
+
+{% block contenido %}
+
+
+
+	<div id="mapa1" class="capas1"></div>
+	<div id="datos1" class="capas1">
+		<div id="form1">
+			<form action="/coords/save" method="post" id="form_coords1">
+
+
+			</form>
+		</div>
+		<div id="data1">
+			{% for ubicacion in ubicaciones %}
+				<input type="hidden" value="" latitud="{{ ubicacion.lat }}" longitud="{{ ubicacion.lng}}" nombre={{ ubicacion.nombreproyecto }}/>
+			{% endfor %}
+		</div>
+
+	</div>
+
+
+
+
+{% endblock %}
+
+
+{% block buscador %}
+
+    <form action="/buscar/" method="post" id="fbuscar">
+    {% csrf_token %}
+        <input type="text" id="tbuscar" name="tbuscar">
+        <input type="submit" value="Buscar">
+    </form>
+    <div id="dresultado">
+    </div>
+
+
+{% endblock %}
